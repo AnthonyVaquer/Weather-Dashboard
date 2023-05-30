@@ -74,9 +74,45 @@ function displayForecast (forecast) {
 // let 
 }
      
-function addCityToHistory (city) {
-
+function addCityToHistory(city) {
+  // adds city to history array
+  history.unshift(city);
+  // limits history array to 10
+  if (history.length > 10) {
+    history.pop();
+  }
+  localStorage.setItem('searchHistory', JSON.stringify(history));
+  renderSearchHistory();
 }
+
+function renderSearchHistory() {
+  historyListEl.innerHTML = '';
+  // Retrieve the search history from local storage
+  const storedHistory = localStorage.getItem('searchHistory');
+  // Parse the stored history as an array or use an empty array if it doesn't exist
+  const parsedHistory = storedHistory ? JSON.parse(storedHistory) : [];
+
+  history = parsedHistory;
+
+  // adds items from history array to list
+  history.forEach((item) => {
+    const listItem = document.createElement('li');
+    listItem.textContent = item;
+    listItem.classList.add('history-item');
+    historyListEl.appendChild(listItem);
+  });
+}
+
+// Loads search history
+history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+
+renderSearchHistory();
+
+
+
+
+
+
 
 {/* <div id="current-weather">
       <h2 id="city-name"></h2>
