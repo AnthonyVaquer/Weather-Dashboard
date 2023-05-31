@@ -16,13 +16,13 @@ const humidityEl = document.querySelector('#humidity');
 const windSpeedEl = document.querySelector('#wind-speed');
 
 
-// //function to get current date
-// function getCurrentDate() {
-//   const currentDate = dayjs().format("dddd, MMMM D, YYYY");
-//   return currentDate;
-// }
-// // display current date
-// currentDateEl.textContent = getCurrentDate();
+//function to get current date
+function getCurrentDate() {
+  const currentDate = dayjs().format("dddd, MMMM D, YYYY");
+  return currentDate;
+}
+// display current date
+currentDateEl.textContent = getCurrentDate();
 
 
 formEl.addEventListener('submit', handleFormSubmit);
