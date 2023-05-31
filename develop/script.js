@@ -9,6 +9,21 @@ const currentWeatherEl = document.querySelector('#current-weather');
 const forecastEl = document.querySelector('#forecast');
 const historyEl = document.querySelector('#search-history');
 const historyListEl = document.querySelector('#history-list');
+const currentDateEl = document.querySelector('#current-date');
+const cityNameEl = document.querySelector('#city-name');
+const temperatureEl = document.querySelector('#temperature');
+const humidityEl = document.querySelector('#humidity');
+const windSpeedEl = document.querySelector('#wind-speed');
+
+
+// //function to get current date
+// function getCurrentDate() {
+//   const currentDate = dayjs().format("dddd, MMMM D, YYYY");
+//   return currentDate;
+// }
+// // display current date
+// currentDateEl.textContent = getCurrentDate();
+
 
 formEl.addEventListener('submit', handleFormSubmit);
 // historyListEl.addEventListener('click', handleHistoryItemClick);
@@ -66,13 +81,30 @@ async function getForecast (location) {
         const jsonData = await response.json();
         console.log(jsonData)
 
-        return jsonData; 
+        return jsonData
+  
 }
-
-function displayForecast (forecast) {
 // let forecastArea = document.createElement('div');
 // let 
+
+function displayForecast(forecast) {
+  // Update the city name
+  cityNameEl.textContent = forecast.city.name;
+  // Get the current weather data
+  const currentWeather = forecast.list[0].main;
+  // Update the temperature
+  const temperature = currentWeather.temp;
+  temperatureEl.textContent = `Temperature: ${temperature}°C`;
+  // Update the humidity
+  const humidity = currentWeather.humidity;
+  humidityEl.textContent = `Humidity: ${humidity}%`;
+  // Get the wind data
+  const wind = forecast.list[0].wind;
+  // Update the wind speed
+  const windSpeed = wind.speed;
+  windSpeedEl.textContent = `Wind Speed: ${windSpeed} m/s`;
 }
+
      
 function addCityToHistory(city) {
   // adds city to history array
