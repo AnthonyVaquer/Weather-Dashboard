@@ -127,7 +127,7 @@ function renderSearchHistory() {
 
   history = parsedHistory;
 
-  // adds items from history array to list
+  // adds items from history array to list and creates new element for each item
   history.forEach((item) => {
     const listItem = document.createElement('li');
     listItem.textContent = item;
