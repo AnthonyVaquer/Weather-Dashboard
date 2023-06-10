@@ -14,9 +14,10 @@ const cityNameEl = document.querySelector('#city-name');
 const temperatureEl = document.querySelector('#temperature');
 const humidityEl = document.querySelector('#humidity');
 const windSpeedEl = document.querySelector('#wind-speed');
+const forecastListEl = document.querySelector('#forecast-list');
 
 
-//function to get current date
+// gets the current date using dayjs
 function getCurrentDate() {
   const currentDate = dayjs().format("dddd, MMMM D, YYYY");
   return currentDate;
@@ -25,10 +26,10 @@ function getCurrentDate() {
 // display current date
 currentDateEl.textContent = getCurrentDate();
 
-
+// event listener for submit to run handleFormSubmit
 formEl.addEventListener('submit', handleFormSubmit);
 
-// submit the search form
+// handleFormSubmit function
 async function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -49,7 +50,7 @@ async function handleFormSubmit(event) {
   }
 }
 
-// getCurrentWeather function
+// retrieves current weather based on the cityName input
 async function getCurrentWeather(cityName) {
 	//https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
  const response = await fetch('https://api.openweathermap.org/geo/1.0/direct?q=' +
@@ -88,6 +89,20 @@ function displayForecast(forecast) {
   // updated the wind speed
   const windSpeed = wind.speed;
   windSpeedEl.textContent = `Wind Speed: ${windSpeed} m/s`;
+
+// gets 5 day for forecast via for-loop and creating new element for each list item
+  forecastListEl.innerHTML = '';
+  for (let i = 1; i <= 5; i++) {
+    const forecastItem = forecast.list[i];
+    const date = new Date(forecastItem.dt * 1000);
+    const temperature = forecastItem.main.temp;
+    const weatherDescription = forecastItem.weather[0].description;
+
+    const listItem = document.createElement('li');
+    listItem.textContent = `${date.toDateString()}: ${weatherDescription}, Temperature: ${temperature}°C`;
+    listItem.classList.add('forecast-item');
+    forecastListEl.appendChild(listItem);
+  }
 }
 
      
@@ -101,6 +116,7 @@ function addCityToHistory(city) {
   localStorage.setItem('searchHistory', JSON.stringify(history));
   renderSearchHistory();
 }
+
 
 function renderSearchHistory() {
   historyListEl.innerHTML = '';
